@@ -1,0 +1,46 @@
+__author__ = 'Abhi NAv'
+from bs4 import BeautifulSoup
+import requests
+def no_of_data(a):
+    t = 1
+    i = 0
+    wf = open('data.txt', 'w+')
+    while i <= a:
+        url ='http://bangalore.yellowpages.co.in/gyms+and+sports+club?page='+str(t)
+        r = requests.get(url)
+        soup = BeautifulSoup(r.content)
+        g_data = soup.find_all('div', {'class': 'serp_tp_list'})
+        g_data2 = soup.find_all('div', {'class': 'FL w305 serpListLft'})
+        for link2 in g_data:
+            for con in link2.find_all('h2', {'class': 'listingName'}):
+                i=i+1
+                wf.write(str(i)+'NAME:  ')
+                wf.write(con.text+'\n')
+            for con in link2.find_all('div', {'class': 'phoneDetails'}):
+                wf.write('PHONE NO: ')
+                wf.write(con.text+'\n')
+            for con in link2.find_all('p', {'class': 'location'}):
+                wf.write('LOCATION: ')
+                wf.write(con.text+'\n')
+            for con in link2.find_all('h3', {'class': 'listingProduct'}):
+                wf.write('FACILITIES:')
+                wf.write(con.text+'\n')
+        if t>=2:
+            for link2 in g_data2:
+                for con in link2.find_all('h2'):
+                    print('-----------------------------')
+                    i = i+1
+                    wf.write(str(i)+'NAME: ')
+                    wf.write(con.text+'\n')
+                for con in link2.find_all('p'):
+                    wf.write('LOCATION: ')
+                    wf.write(con.text+'\n')
+                for con in link2.find_all('div', {'class': 'phone'}):
+                    wf.write('PHONE NO: ')
+                    wf.write(con.text+'\n')
+        t=t+1
+        if i == 200:
+            break
+    wf.close()
+no_of_data(200)
+
