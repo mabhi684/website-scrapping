@@ -1,0 +1,11 @@
+import random
+import urllib.request
+
+
+def download_web_image(url):
+    name = random.randrange(1, 1000)
+    f_name = str(name)+".jpg"
+    urllib.request.urlretrieve(url, f_name)
+
+
+download_web_image('http://www.worldliterarycafe.com/sites/default/files/low%20quality.jpg')
